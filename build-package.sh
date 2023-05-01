@@ -553,23 +553,29 @@ for ((i=0; i<${#PACKAGE_LIST[@]}; i++)); do
 			termux_step_setup_build_folders
 		fi
 
+        echo "WWOOWWEEEE ${PACKAGE_LIST[i]} start  build"
 		termux_step_start_build
+        echo "WWOOWWEEEE ${PACKAGE_LIST[i]} done  build"
 
 		if [ "$TERMUX_CONTINUE_BUILD" == "false" ]; then
 			termux_step_get_dependencies
 			termux_step_override_config_scripts
 		fi
 
+        echo "WWOOWWEEEE ${PACKAGE_LIST[i]} create_timestamp_file"
 		termux_step_create_timestamp_file
 
 		if [ "$TERMUX_CONTINUE_BUILD" == "false" ]; then
 			cd "$TERMUX_PKG_CACHEDIR"
 			termux_step_get_source
 			cd "$TERMUX_PKG_SRCDIR"
+        echo "WWOOWWEEEE ${PACKAGE_LIST[i]} post_get_source"
 			termux_step_post_get_source
+        echo "WWOOWWEEEE ${PACKAGE_LIST[i]} handle_hostbuild"
 			termux_step_handle_hostbuild
 		fi
 
+        echo "WWOOWWEEEE ${PACKAGE_LIST[i]} setup_toolchain"
 		termux_step_setup_toolchain
 
 		if [ "$TERMUX_CONTINUE_BUILD" == "false" ]; then
@@ -577,19 +583,23 @@ for ((i=0; i<${#PACKAGE_LIST[@]}; i++)); do
 			termux_step_patch_package
 			termux_step_replace_guess_scripts
 			cd "$TERMUX_PKG_SRCDIR"
+            echo "WWOOWWEEEE ${PACKAGE_LIST[i]} step_pre_configure"
 			termux_step_pre_configure
 		fi
 
 		# Even on continued build we might need to setup paths
 		# to tools so need to run part of configure step
 		cd "$TERMUX_PKG_BUILDDIR"
+        echo "WWOOWWEEEE ${PACKAGE_LIST[i]} step_configure"
 		termux_step_configure
 
 		if [ "$TERMUX_CONTINUE_BUILD" == "false" ]; then
 			cd "$TERMUX_PKG_BUILDDIR"
+            echo "WWOOWWEEEE ${PACKAGE_LIST[i]} step_post_configure"
 			termux_step_post_configure
 		fi
 		cd "$TERMUX_PKG_BUILDDIR"
+        echo "WWOOWWEEEE ${PACKAGE_LIST[i]} step_make"
 		termux_step_make
 		cd "$TERMUX_PKG_BUILDDIR"
 		termux_step_make_install
